@@ -1,0 +1,102 @@
+.skills {
+    padding: 8rem 2rem;
+    position: relative;
+  }
+  
+  .canvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.3;
+  }
+  
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+  }
+  
+  .title {
+    font-size: 4.5rem;
+    font-weight: 900;
+    margin-bottom: 5rem;
+    text-align: center;
+    opacity: 0;
+    animation: floatIn 1s forwards;
+  }
+  
+  @keyframes floatIn {
+    0% {
+      opacity: 0;
+      transform: translateY(100px) scale(0.8);
+      filter: blur(10px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+  }
+  
+  .title span {
+    display: block;
+    font-size: 1.5rem;
+    color: #6b7280;
+    margin-top: 1rem;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 3rem;
+  }
+  
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  .skillItem {
+    opacity: 0;
+    animation: slideLeft 0.8s forwards;
+  }
+  
+  @keyframes slideLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-100px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  .skillHeader {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  
+  .skillName {
+    font-size: 1.125rem;
+    font-weight: bold;
+  }
+  
+  .skillPercentage {
+    color: #9ca3af;
+  }
+  
+  .progressBar {
+    height: 0.5rem;
+    background: #1f2937;
+    overflow: hidden;
+  }
+  
+  .progressFill {
+    height: 100%;
+    transition: width 1s ease-out;
+    box-shadow: 0 0 20px currentColor;
+  }
