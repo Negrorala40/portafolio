@@ -223,15 +223,15 @@ export default function Hero() {
             <div className={styles.imageGlow2} />
             
             {/* Badges flotantes */}
-            <div className={styles.floatingBadge1}>
+            <div className={styles.floatingBadge5}>
               <span className={styles.badgeIcon}>⚡</span>
               <span className={styles.badgeText}>Java</span>
             </div>
-            <div className={styles.floatingBadge1}>
+            <div className={styles.floatingBadge6}>
               <span className={styles.badgeIcon}>⚡</span>
               <span className={styles.badgeText}>Springboot</span>
             </div>
-            <div className={styles.floatingBadge1}>
+            <div className={styles.floatingBadge7}>
               <span className={styles.badgeIcon}>⚡</span>
               <span className={styles.badgeText}>Python</span>
             </div>
