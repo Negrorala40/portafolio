@@ -83,6 +83,8 @@
   position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  background: #1a1a1a;
 }
 
 .projectImage {
@@ -117,6 +119,7 @@
   transition: opacity 0.5s ease;
   opacity: 0;
   padding: 1.5rem;
+  z-index: 5;
 }
 
 .projectCard:hover .overlay {
@@ -226,6 +229,7 @@
   transform: scale(1.1);
   pointer-events: none;
   border-radius: 16px;
+  z-index: 4;
 }
 
 .projectCard:hover .borderEffect {
@@ -272,41 +276,7 @@
   color: #64ffda;
 }
 
-/* Scrollbar personalizado para el overlay */
-.overlayContent::-webkit-scrollbar {
-  width: 4px;
-}
-
-.overlayContent::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.overlayContent::-webkit-scrollbar-thumb {
-  background: #64ffda;
-  border-radius: 4px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .title {
-    font-size: 2.5rem;
-  }
-
-  .title span {
-    font-size: 1rem;
-  }
-
-  .cardInner {
-    height: 350px;
-  }
-
-  .overlayContent {
-    font-size: 0.9rem;
-  }
-}
-/* Añade esto al final de tu Projects.module.css */
-
-/* MODIFICA esta sección - línea 303 aproximadamente */
+/* ===== BADGES ===== */
 .projectBadges {
   position: absolute;
   top: 10px;
@@ -314,14 +284,42 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
-  z-index: 3;
-  transition: opacity 0.3s ease; /* ← AÑADE ESTA LÍNEA */
+  z-index: 10;
+  transition: opacity 0.3s ease;
 }
 
-/* AÑADE esto nuevo después de .projectBadges */
-.projectCard:hover .projectBadges {
-  opacity: 0; /* ← AÑADE ESTE BLOQUE COMPLETO */
-  pointer-events: none; /* ← Evita que interfieran con el hover */
+/* Solo en dispositivos con hover (desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .projectCard:hover .projectBadges {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+/* Para dispositivos táctiles - los badges se quedan visibles */
+@media (hover: none) and (pointer: coarse) {
+  .projectBadges {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  
+  .projectCard:active .overlay {
+    opacity: 1;
+  }
+  
+  .projectBadge {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+  }
+  
+  .overlay {
+    background: rgba(0, 0, 0, 0.85);
+  }
+  
+  .overlayContent {
+    padding-top: 60px;
+  }
 }
 
 .projectBadge {
@@ -357,6 +355,7 @@
   transform: scale(1.05);
 }
 
+/* ===== MÉTRICAS ===== */
 .metricsContainer {
   display: flex;
   align-items: center;
@@ -395,45 +394,369 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* Mejoras para la imagen */
-.imageWrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #1a1a1a;
+/* ===== SCROLLBAR PERSONALIZADO ===== */
+.overlayContent::-webkit-scrollbar {
+  width: 4px;
 }
 
-.projectImage {
-  object-fit: cover;
-  transition: transform 0.5s ease;
+.overlayContent::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.projectCard:hover .projectImage {
-  transform: scale(1.05);
+.overlayContent::-webkit-scrollbar-thumb {
+  background: #64ffda;
+  border-radius: 4px;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
+/* ===== RESPONSIVE COMPLETO ===== */
+
+/* Tablets y laptops pequeñas (1024px y menos) */
+@media (max-width: 1024px) {
+  .projects {
+    padding: 6rem 1.5rem;
+  }
+
+  .title {
+    font-size: 3.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .title span {
+    font-size: 1.3rem;
+  }
+
+  .cardInner {
+    height: 380px;
+  }
+
   .projectBadges {
-    top: 5px;
-    left: 5px;
+    top: 8px;
+    left: 8px;
+    gap: 4px;
   }
-  
+
   .projectBadge {
-    font-size: 0.6rem;
-    padding: 2px 6px;
+    padding: 3px 8px;
+    font-size: 0.65rem;
   }
-  
+
+  .metricsContainer {
+    padding: 0.9rem;
+  }
+
+  .metricValue {
+    font-size: 1.3rem;
+  }
+
+  .metricLabel {
+    font-size: 0.6rem;
+  }
+}
+
+/* Tablets (768px y menos) */
+@media (max-width: 768px) {
+  .projects {
+    padding: 4rem 1rem;
+  }
+
+  .grid {
+    gap: 1.5rem;
+  }
+
+  .title {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .title span {
+    font-size: 1rem;
+  }
+
+  .cardInner {
+    height: 350px;
+  }
+
+  .overlay {
+    padding: 1rem;
+  }
+
+  .overlayContent {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  .projectTitle {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .projectDescription {
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+  }
+
+  .techSection {
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .techGroup {
+    gap: 0.3rem;
+  }
+
+  .techLabel {
+    font-size: 0.7rem;
+  }
+
+  .techTag {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.6rem;
+  }
+
+  .linkIndicator {
+    padding: 0.4rem 0.8rem;
+    margin-top: 0.3rem;
+  }
+
+  .linkIcon {
+    font-size: 0.8rem;
+  }
+
+  .linkText {
+    font-size: 0.7rem;
+  }
+
+  .cardFooter {
+    margin-top: 0.8rem;
+  }
+
+  .cardTitle {
+    font-size: 1rem;
+  }
+
+  .miniTag {
+    padding: 0.15rem 0.5rem;
+    font-size: 0.6rem;
+  }
+
+  .projectBadges {
+    top: 6px;
+    left: 6px;
+    gap: 3px;
+  }
+
+  .projectBadge {
+    padding: 2px 6px;
+    font-size: 0.6rem;
+    border-radius: 15px;
+  }
+
   .metricsContainer {
     padding: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
-  
+
+  .metricItem {
+    min-width: 70px;
+  }
+
   .metricValue {
     font-size: 1.2rem;
   }
-  
+
   .metricLabel {
+    font-size: 0.55rem;
+  }
+
+  .metricDivider {
+    height: 25px;
+  }
+}
+
+/* Móviles grandes (480px y menos) */
+@media (max-width: 480px) {
+  .projects {
+    padding: 3rem 0.8rem;
+  }
+
+  .grid {
+    gap: 1.2rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .title span {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+  }
+
+  .cardInner {
+    height: 300px;
+    border-radius: 12px;
+  }
+
+  .overlay {
+    padding: 0.8rem;
+  }
+
+  .overlayContent {
+    font-size: 0.8rem;
+  }
+
+  .projectTitle {
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .projectDescription {
+    font-size: 0.7rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .techSection {
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .techLabel {
     font-size: 0.6rem;
+  }
+
+  .techTag {
+    padding: 0.1rem 0.4rem;
+    font-size: 0.55rem;
+    border-radius: 3px;
+  }
+
+  .linkIndicator {
+    padding: 0.3rem 0.6rem;
+  }
+
+  .linkIcon {
+    font-size: 0.7rem;
+  }
+
+  .linkText {
+    font-size: 0.6rem;
+  }
+
+  .cardFooter {
+    margin-top: 0.6rem;
+    padding: 0 0.3rem;
+  }
+
+  .cardTitle {
+    font-size: 0.9rem;
+  }
+
+  .miniTags {
+    gap: 0.3rem;
+    margin-top: 0.3rem;
+  }
+
+  .miniTag {
+    padding: 0.1rem 0.4rem;
+    font-size: 0.55rem;
+    border-radius: 3px;
+  }
+
+  .projectBadges {
+    top: 4px;
+    left: 4px;
+    gap: 2px;
+  }
+
+  .projectBadge {
+    padding: 2px 4px;
+    font-size: 0.5rem;
+    border-radius: 12px;
+    border-width: 1px;
+  }
+
+  .metricsContainer {
+    padding: 0.5rem;
+    border-radius: 8px;
+    margin: 0.5rem 0;
+  }
+
+  .metricItem {
+    min-width: 50px;
+  }
+
+  .metricValue {
+    font-size: 0.9rem;
+  }
+
+  .metricLabel {
+    font-size: 0.45rem;
+    letter-spacing: 0.3px;
+  }
+
+  .metricDivider {
+    height: 20px;
+    width: 1px;
+  }
+
+  .borderEffect {
+    border-width: 1.5px;
+    border-radius: 12px;
+  }
+}
+
+/* Móviles muy pequeños (360px y menos) */
+@media (max-width: 360px) {
+  .cardInner {
+    height: 280px;
+  }
+
+  .overlayContent {
+    font-size: 0.75rem;
+  }
+
+  .projectTitle {
+    font-size: 0.9rem;
+  }
+
+  .projectDescription {
+    font-size: 0.65rem;
+  }
+
+  .techTag {
+    padding: 0.1rem 0.3rem;
+    font-size: 0.5rem;
+  }
+
+  .metricItem {
+    min-width: 45px;
+  }
+
+  .metricValue {
+    font-size: 0.8rem;
+  }
+
+  .metricLabel {
+    font-size: 0.4rem;
+  }
+
+  .projectBadge {
+    padding: 1px 3px;
+    font-size: 0.45rem;
+  }
+}
+
+/* Ajuste para orientación horizontal en móviles */
+@media (max-height: 500px) and (orientation: landscape) {
+  .cardInner {
+    height: 250px;
+  }
+
+  .overlayContent {
+    max-height: 220px;
   }
 }

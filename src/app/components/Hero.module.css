@@ -824,6 +824,9 @@
   
   /* Responsive */
   @media (max-width: 1024px) {
+    .hero{
+      margin-top: 2.5rem;
+    }
     .grid {
       grid-template-columns: 1fr;
       gap: 3rem;
@@ -873,6 +876,10 @@
   }
   
   @media (max-width: 768px) {
+
+    .hero {
+      margin-top: 2.5rem;
+    }
     .titleLine {
       font-size: 2.5rem;
     }
