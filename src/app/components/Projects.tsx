@@ -78,14 +78,14 @@ const projects = [
   },
   {
     id: 3,
-    title: 'PROYECTO 03',
-    description: 'Descripción de tu tercer proyecto',
-    image: '/project3.jpg',
-    tags: ['React', 'Node.js', 'MongoDB'],
+    title: 'PROXIMO Que sea el tuyo!',
+    description: '',
+    image: '/images/tu.avif',
+    tags: [],
     technologies: {
-      frontend: ['React'],
-      backend: ['Node.js'],
-      database: ['MongoDB']
+      frontend: [''],
+      backend: [''],
+      database: ['']
     }
   },
 ]
@@ -109,7 +109,6 @@ export default function Projects() {
       <div className={styles.container}>
         <h2 className={styles.title} style={{ animationDelay: '0.2s' }}>
           PROYECTOS
-          <span>/ trabajos destacados</span>
         </h2>
         
         <div className={styles.grid}>

@@ -231,7 +231,6 @@ export default function Skills() {
       <div className={styles.container}>
         <h2 className={styles.title} style={{ animationDelay: '0.2s' }}>
           SKILLS
-          <span>/ tecnologías & expertise</span>
         </h2>
 
         {/* Filtros por categoría */}
