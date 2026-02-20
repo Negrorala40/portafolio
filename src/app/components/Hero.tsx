@@ -1,51 +1,76 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import Image from 'next/image'
 import styles from './Hero.module.css'
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null)
   const imageRef = useRef<HTMLDivElement>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [imageLoaded, setImageLoaded] = useState(false)
   const [isHoveringImage, setIsHoveringImage] = useState(false)
-
+  
+  // Usamos useRef para la posición del mouse (NO causa re-render)
+  const mousePosition = useRef({ x: 0, y: 0 })
+  // Ref para el animation frame
+  const rafRef = useRef<number | undefined>(undefined)
+  // Efecto 3D optimizado con requestAnimationFrame
   useEffect(() => {
+    const hero = heroRef.current
+    if (!hero) return
+
     const handleMouseMove = (e: MouseEvent) => {
-      if (!heroRef.current) return
-      
       const { clientX, clientY } = e
-      const { width, height, left, top } = heroRef.current.getBoundingClientRect()
+      const { width, height, left, top } = hero.getBoundingClientRect()
       
-      const x = (clientX - left) / width - 0.5
-      const y = (clientY - top) / height - 0.5
+      mousePosition.current = {
+        x: (clientX - left) / width - 0.5,
+        y: (clientY - top) / height - 0.5
+      }
       
-      setMousePosition({ x, y })
-      heroRef.current.style.transform = `perspective(1000px) rotateY(${x * 5}deg) rotateX(${y * -5}deg)`
+      // Cancelamos el frame anterior para no acumular
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+      }
+      
+      // Aplicamos la transformación en el próximo frame
+      rafRef.current = requestAnimationFrame(() => {
+        hero.style.transform = `perspective(1000px) rotateY(${mousePosition.current.x * 5}deg) rotateX(${mousePosition.current.y * -5}deg)`
+      })
     }
 
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove)
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current)
+      }
+    }
   }, [])
 
-  // Efecto para la foto cuando el mouse se acerca
-  const getImageTransform = () => {
-    if (!imageRef.current) return {}
-    
-    const rect = imageRef.current.getBoundingClientRect()
-    const centerX = rect.left + rect.width / 2
-    const centerY = rect.top + rect.height / 2
-    
-    const deltaX = (mousePosition.x * window.innerWidth - centerX) / 30
-    const deltaY = (mousePosition.y * window.innerHeight - centerY) / 30
-    
-    return {
-      transform: `translate(${deltaX}px, ${deltaY}px) scale(${isHoveringImage ? 1.1 : 1})`,
-    }
-  }
+  // Efecto para la foto - OPTIMIZADO
+  useEffect(() => {
+    const image = imageRef.current
+    if (!image) return
 
-  const getRoleText = () => {
+    const updateImageTransform = () => {
+      const rect = image.getBoundingClientRect()
+      const centerX = rect.left + rect.width / 2
+      const centerY = rect.top + rect.height / 2
+      
+      const deltaX = (mousePosition.current.x * window.innerWidth - centerX) / 30
+      const deltaY = (mousePosition.current.y * window.innerHeight - centerY) / 30
+      
+      image.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${isHoveringImage ? 1.1 : 1})`
+    }
+
+    // Usamos un intervalo más lento para la foto (30fps en lugar de 60)
+    const interval = setInterval(updateImageTransform, 32) // ~30fps
+    return () => clearInterval(interval)
+  }, [isHoveringImage])
+
+  // Memoizamos el texto del rol para evitar cálculos innecesarios
+  const getRoleText = useCallback(() => {
     const roles = [
       'SOFTWARE ENGINEER',
       'WEB DEVELOPER', 
@@ -53,29 +78,31 @@ export default function Hero() {
       'UI/UX DESIGNER',
       'MOBILE DEV'
     ]
-    const index = Math.floor((mousePosition.x + 0.5) * roles.length)
+    const index = Math.floor((mousePosition.current.x + 0.5) * roles.length)
     return roles[Math.min(Math.max(index, 0), roles.length - 1)]
-  }
+  }, [])
 
-  // 📥 Función para descargar CV
-  const handleDownloadCV = () => {
-    // El PDF debe estar en: public/cv-sebastian-arboleda.pdf
+  // Memoizamos las partículas (se generan UNA SOLA VEZ)
+  const particles = useMemo(() => 
+    [...Array(15)].map((_, i) => ({ // Reducimos a 15 partículas
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+      delay: `${Math.random() * 5}s`,
+      duration: `${10 + Math.random() * 10}s`
+    })), []
+  )
+
+  const scrollToProjects = useCallback(() => {
+    document.getElementById('proyectos')?.scrollIntoView({ behavior: 'smooth' })
+  }, [])
+
+  const scrollToContact = useCallback(() => {
+    document.getElementById('contacto')?.scrollIntoView({ behavior: 'smooth' })
+  }, [])
+
+  const handleDownloadCV = useCallback(() => {
     window.open('/CVSebastianArboleda.pdf', '_blank')
-  }
-
-  // 🔗 Función para ir a proyectos
-  const scrollToProjects = () => {
-    document.getElementById('proyectos')?.scrollIntoView({ 
-      behavior: 'smooth' 
-    })
-  }
-
-  // 📞 Función para ir a contacto
-  const scrollToContact = () => {
-    document.getElementById('contacto')?.scrollIntoView({ 
-      behavior: 'smooth' 
-    })
-  }
+  }, [])
 
   return (
     <section id="inicio" ref={heroRef} className={styles.hero}>
@@ -84,17 +111,17 @@ export default function Hero() {
         <div className={styles.glow2} />
         <div className={styles.glow3} />
         
-        {/* Partículas */}
+        {/* Partículas optimizadas */}
         <div className={styles.particles}>
-          {[...Array(30)].map((_, i) => (
+          {particles.map((particle, i) => (
             <div 
               key={i}
               className={styles.particle}
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${10 + Math.random() * 10}s`
+                left: particle.left,
+                top: particle.top,
+                animationDelay: particle.delay,
+                animationDuration: particle.duration
               }}
             />
           ))}
@@ -102,7 +129,6 @@ export default function Hero() {
       </div>
       
       <div className={styles.grid}>
-        {/* Columna izquierda - Texto */}
         <div className={styles.leftColumn}>
           <div className={styles.roleBadge}>
             <span className={styles.roleText}>{getRoleText()}</span>
@@ -144,7 +170,6 @@ export default function Hero() {
           </div>
           
           <div className={styles.buttons}>
-            {/* Botón Ver Proyectos - AHORA SIRVE */}
             <button 
               onClick={scrollToProjects}
               className={styles.primaryButton}
@@ -154,7 +179,6 @@ export default function Hero() {
               <span className={styles.buttonGlow} />
             </button>
             
-            {/* Botón Contactar - AHORA SIRVE */}
             <button 
               onClick={scrollToContact}
               className={styles.secondaryButton}
@@ -162,7 +186,6 @@ export default function Hero() {
               Contactar
             </button>
 
-            {/* Botón CV */}
             <button 
               onClick={handleDownloadCV}
               className={styles.cvButton}
@@ -187,16 +210,13 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Columna derecha - FOTO */}
         <div className={styles.rightColumn}>
           <div 
             ref={imageRef}
             className={styles.imageContainer}
             onMouseEnter={() => setIsHoveringImage(true)}
             onMouseLeave={() => setIsHoveringImage(false)}
-            style={getImageTransform()}
           >
-            {/* Marco animado */}
             <div className={styles.imageFrame}>
               <div className={styles.frameCorner1} />
               <div className={styles.frameCorner2} />
@@ -204,7 +224,6 @@ export default function Hero() {
               <div className={styles.frameCorner4} />
             </div>
 
-            {/* La foto */}
             <div className={styles.imageWrapper}>
               {!imageLoaded && <div className={styles.imageSkeleton} />}
               <Image
@@ -215,14 +234,14 @@ export default function Hero() {
                 className={`${styles.profileImage} ${imageLoaded ? styles.loaded : ''}`}
                 onLoad={() => setImageLoaded(true)}
                 priority
+                loading="eager" // Forzamos carga inmediata
               />
             </div>
 
-            {/* Efectos de luz */}
             <div className={styles.imageGlow} />
             <div className={styles.imageGlow2} />
             
-            {/* Badges flotantes */}
+            {/* Badges flotantes - usamos CSS puro para animaciones */}
             <div className={styles.floatingBadge5}>
               <span className={styles.badgeIcon}>⚡</span>
               <span className={styles.badgeText}>Java</span>
@@ -252,13 +271,11 @@ export default function Hero() {
               <span className={styles.badgeText}>Full Stack</span>
             </div>
 
-            {/* Círculos decorativos */}
             <div className={styles.circle1} />
             <div className={styles.circle2} />
             <div className={styles.circle3} />
           </div>
 
-          {/* Texto flotante "DISPONIBLE" */}
           <div className={styles.hireMeText}>
             <span>D</span>
             <span>I</span>
