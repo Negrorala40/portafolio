@@ -7,37 +7,28 @@
   position: relative;
   overflow: hidden;
   padding: 2rem;
-  /* Eliminamos transition transform que causa reflow */
 }
 
 .background {
   position: absolute;
   inset: 0;
-  /* Mejoramos rendimiento con will-change */
   will-change: transform;
 }
 
-/* OPTIMIZADO: Unificamos glows en uno solo */
+/* Unificamos glows en uno solo */
 .glow {
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
   filter: blur(60px);
-  animation: pulseOptimized 4s ease-in-out infinite;
 }
 
-@keyframes pulseOptimized {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.6; }
-}
-
-/* OPTIMIZADO: Reducimos partículas a 8 y usamos transform en lugar de position */
+/* Partículas mínimas */
 .particles {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.5;
-  /* Aceleración por hardware */
+  opacity: 0.3;
   transform: translateZ(0);
 }
 
@@ -47,23 +38,8 @@
   height: 2px;
   background: white;
   border-radius: 50%;
-  animation: floatParticleOptimized linear infinite;
-  /* Aceleración por hardware */
+  opacity: 0.2;
   transform: translateZ(0);
-}
-
-@keyframes floatParticleOptimized {
-  0% {
-    transform: translateY(100vh) scale(0);
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.3;
-  }
-  100% {
-    transform: translateY(-100vh) scale(1);
-    opacity: 0;
-  }
 }
 
 .grid {
@@ -75,7 +51,6 @@
   z-index: 10;
   position: relative;
   align-items: center;
-  /* Aceleración por hardware */
   transform: translateZ(0);
 }
 
@@ -91,7 +66,7 @@
   position: relative;
 }
 
-/* OPTIMIZADO: Simplificamos animaciones del badge */
+/* Role badge simplificado */
 .roleBadge {
   display: inline-block;
   margin-bottom: 2rem;
@@ -99,12 +74,6 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50px;
   backdrop-filter: blur(10px);
-  /* Animación más ligera */
-  transition: border-color 0.3s ease;
-}
-
-.roleBadge:hover {
-  border-color: rgba(255, 255, 255, 0.8);
 }
 
 .roleText {
@@ -116,28 +85,22 @@
   background-clip: text;
 }
 
-/* OPTIMIZADO: Unificamos animaciones de entrada */
+/* Una sola animación de entrada */
 .title, .subtitle, .stats, .buttons, .techStack {
   opacity: 0;
-  animation: fadeInUp 0.6s ease-out forwards;
+  animation: fadeIn 0.5s ease forwards;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+.title { animation-delay: 0.1s; }
+.subtitle { animation-delay: 0.2s; }
+.stats { animation-delay: 0.3s; }
+.buttons { animation-delay: 0.4s; }
+.techStack { animation-delay: 0.5s; }
 
-.title { animation-delay: 0.2s; }
-.subtitle { animation-delay: 0.4s; }
-.stats { animation-delay: 0.6s; }
-.buttons { animation-delay: 0.8s; }
-.techStack { animation-delay: 1s; }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
 .titleLine {
   display: block;
@@ -154,13 +117,6 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  background-size: 200% auto;
-  animation: gradientShiftOptimized 3s ease infinite;
-}
-
-@keyframes gradientShiftOptimized {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
 }
 
 .subtitle {
@@ -177,12 +133,10 @@
 
 .highlight {
   color: #64ffda;
-  display: inline-block;
 }
 
 .highlight2 {
   color: #a78bfa;
-  display: inline-block;
 }
 
 .stats {
@@ -204,7 +158,6 @@
   background: linear-gradient(135deg, #fff, #888);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  background-clip: text;
   line-height: 1;
 }
 
@@ -220,7 +173,6 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* OPTIMIZADO: Simplificamos botones */
 .buttons {
   display: flex;
   gap: 1rem;
@@ -239,14 +191,12 @@
   border-radius: 8px;
   min-width: 140px;
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  /* Aceleración por hardware */
+  transition: transform 0.2s ease;
   transform: translateZ(0);
 }
 
 .primaryButton:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
 }
 
 .buttonText {
@@ -283,15 +233,13 @@
   border-radius: 8px;
   font-size: 1rem;
   min-width: 120px;
-  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-  /* Aceleración por hardware */
+  transition: transform 0.2s ease, background 0.2s ease;
   transform: translateZ(0);
 }
 
 .secondaryButton:hover {
   transform: scale(1.05);
   background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 .cvButton {
@@ -306,40 +254,18 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  /* Aceleración por hardware */
+  transition: transform 0.2s ease;
   transform: translateZ(0);
 }
 
 .cvButton:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 30px rgba(102, 126, 234, 0.4);
 }
 
-.cvIcon {
-  font-size: 1.1rem;
-  transition: transform 0.3s ease;
-}
-
-.cvButton:hover .cvIcon {
-  transform: rotate(360deg);
-}
-
-.cvText {
+.cvIcon, .cvText, .cvDownload {
   font-size: 1rem;
 }
 
-.cvDownload {
-  font-size: 1.1rem;
-  transition: transform 0.2s ease;
-}
-
-.cvButton:hover .cvDownload {
-  transform: translateY(3px);
-}
-
-/* OPTIMIZADO: Tech stack más ligero */
 .techStack {
   display: flex;
   flex-wrap: wrap;
@@ -352,10 +278,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 50px;
   font-size: 0.85rem;
-  letter-spacing: 1px;
-  transition: all 0.2s ease;
-  cursor: default;
-  /* Aceleración por hardware */
+  transition: transform 0.2s ease;
   transform: translateZ(0);
 }
 
@@ -365,12 +288,11 @@
   transform: translateY(-3px);
 }
 
-/* ===== ESTILOS DE LA FOTO OPTIMIZADOS ===== */
+/* ===== ESTILOS DE LA FOTO ===== */
 .imageContainer {
   position: relative;
   width: 350px;
   height: 525px;
-  /* Usamos transform en lugar de transition para mejor rendimiento */
   transform: translateZ(0);
 }
 
@@ -381,7 +303,6 @@
   border-radius: 35px;
   z-index: 1;
   overflow: hidden;
-  /* Aceleración por hardware */
   transform: translateZ(0);
 }
 
@@ -390,7 +311,6 @@
   width: 50px;
   height: 50px;
   border: 2px solid #64ffda;
-  /* Aceleración por hardware */
   transform: translateZ(0);
 }
 
@@ -430,7 +350,6 @@
   overflow: hidden;
   z-index: 2;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  /* Aceleración por hardware */
   transform: translateZ(0);
 }
 
@@ -440,7 +359,6 @@
   object-fit: cover;
   object-position: center;
   transition: transform 0.3s ease;
-  /* Aceleración por hardware */
   transform: translateZ(0);
 }
 
@@ -448,7 +366,7 @@
   transform: scale(1.05);
 }
 
-/* OPTIMIZADO: Unificamos glows de la imagen */
+/* Glow de imagen simplificado */
 .imageGlow {
   position: absolute;
   inset: -20px;
@@ -457,19 +375,11 @@
   filter: blur(20px);
   z-index: 0;
   opacity: 0.3;
-  animation: glowOptimized 3s ease-in-out infinite;
-  /* Aceleración por hardware */
   transform: translateZ(0);
 }
 
-@keyframes glowOptimized {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.5; }
-}
-
-/* OPTIMIZADO: Badges flotantes más eficientes */
-.floatingBadge1, .floatingBadge2, .floatingBadge3, .floatingBadge4,
-.floatingBadge5, .floatingBadge6, .floatingBadge7 {
+/* Badges flotantes - solo los que usas */
+.floatingBadge1, .floatingBadge2, .floatingBadge3, .floatingBadge4 {
   position: absolute;
   display: flex;
   align-items: center;
@@ -481,105 +391,26 @@
   border-radius: 50px;
   font-size: 0.7rem;
   color: white;
-  white-space: nowrap;
   z-index: 3;
-  /* Animación más simple y eficiente */
-  animation: floatOptimized 2s ease-in-out infinite;
-  /* Aceleración por hardware */
   transform: translateZ(0);
 }
 
-@keyframes floatOptimized {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
+.floatingBadge1 { top: 10%; right: -20px; }
+.floatingBadge2 { bottom: 20%; left: -30px; }
+.floatingBadge3 { top: 40%; left: -40px; }
+.floatingBadge4 { bottom: 10%; right: -30px; }
 
-.floatingBadge1 { top: 10%; right: -20px; animation-delay: 0s; }
-.floatingBadge2 { bottom: 20%; left: -30px; animation-delay: 0.3s; }
-.floatingBadge3 { top: 40%; left: -40px; animation-delay: 0.6s; }
-.floatingBadge4 { bottom: 10%; right: -30px; animation-delay: 0.9s; }
-.floatingBadge5 { top: 25%; right: -15px; animation-delay: 1.2s; }
-.floatingBadge6 { bottom: 35%; left: -20px; animation-delay: 1.5s; }
-.floatingBadge7 { top: 60%; right: -25px; animation-delay: 1.8s; }
+.floatingBadge4 { border-color: rgba(100, 255, 218, 0.3); }
 
-.floatingBadge5 { border-color: rgba(255, 99, 132, 0.3); }
-.floatingBadge6 { border-color: rgba(106, 176, 76, 0.3); }
-.floatingBadge7 { border-color: rgba(247, 223, 30, 0.3); }
+.badgeIcon { font-size: 0.9rem; }
+.badgeText { font-size: 0.7rem; }
 
-.floatingBadge5:hover {
-  background: rgba(255, 99, 132, 0.2);
-  border-color: #ff6384;
-}
-
-.floatingBadge6:hover {
-  background: rgba(106, 176, 76, 0.2);
-  border-color: #6ab04c;
-}
-
-.floatingBadge7:hover {
-  background: rgba(247, 223, 30, 0.2);
-  border-color: #f7df1e;
-}
-
-.floatingBadge4:hover {
-  background: rgba(100, 255, 218, 0.2);
-  border-color: #64ffda;
-}
-
-.badgeIcon {
-  font-size: 0.9rem;
-}
-
-.badgeText {
-  font-size: 0.7rem;
-  font-weight: 500;
-}
-
-/* OPTIMIZADO: Círculos decorativos más simples */
+/* SIN CÍRCULOS DECORATIVOS */
 .circle1, .circle2, .circle3 {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  z-index: 0;
-  /* Animación más simple */
-  animation: rotateOptimized 20s linear infinite;
-  /* Aceleración por hardware */
-  transform: translateZ(0);
+  display: none;
 }
 
-.circle1 {
-  width: 500px;
-  height: 500px;
-  top: -50px;
-  left: -50px;
-  border: 2px solid rgba(100, 255, 218, 0.1);
-}
-
-.circle2 {
-  width: 600px;
-  height: 600px;
-  top: -100px;
-  left: -100px;
-  border: 1px dashed rgba(255, 255, 255, 0.05);
-  animation-direction: reverse;
-  animation-duration: 30s;
-}
-
-.circle3 {
-  width: 400px;
-  height: 400px;
-  top: 0;
-  left: 0;
-  border: 1px dotted rgba(167, 139, 250, 0.1);
-  animation-duration: 15s;
-}
-
-@keyframes rotateOptimized {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* OPTIMIZADO: Texto disponible */
+/* Texto disponible sin animación */
 .hireMeText {
   position: absolute;
   bottom: -30px;
@@ -595,29 +426,9 @@
   font-weight: 900;
   color: #64ffda;
   text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
-  animation: bounceLetterOptimized 1.5s ease-in-out infinite;
-  display: inline-block;
-  /* Aceleración por hardware */
-  transform: translateZ(0);
 }
 
-@keyframes bounceLetterOptimized {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-
-.hireMeText span:nth-child(1) { animation-delay: 0s; }
-.hireMeText span:nth-child(2) { animation-delay: 0.1s; }
-.hireMeText span:nth-child(3) { animation-delay: 0.2s; }
-.hireMeText span:nth-child(4) { animation-delay: 0.3s; }
-.hireMeText span:nth-child(5) { animation-delay: 0.4s; }
-.hireMeText span:nth-child(6) { animation-delay: 0.5s; }
-.hireMeText span:nth-child(7) { animation-delay: 0.6s; }
-.hireMeText span:nth-child(8) { animation-delay: 0.7s; }
-.hireMeText span:nth-child(9) { animation-delay: 0.8s; }
-.hireMeText span:nth-child(10) { animation-delay: 0.9s; }
-
-/* OPTIMIZADO: Scroll indicator */
+/* Scroll indicator simplificado */
 .scrollIndicator {
   position: absolute;
   bottom: 2rem;
@@ -627,14 +438,6 @@
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  animation: bounceOptimized 1.5s ease-in-out infinite;
-  /* Aceleración por hardware */
-  transform: translateZ(0);
-}
-
-@keyframes bounceOptimized {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(-5px); }
 }
 
 .scrollMouse {
@@ -652,7 +455,6 @@
   background: white;
   border-radius: 9999px;
   margin-top: 0.5rem;
-  animation: pulseOptimized 1.5s ease-in-out infinite;
 }
 
 .scrollText {
@@ -661,7 +463,7 @@
   color: #9ca3af;
 }
 
-/* ===== RESPONSIVE OPTIMIZADO ===== */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .hero {
     margin-top: 2rem;
@@ -711,8 +513,7 @@
 
   /* Ocultamos badges en móvil */
   .floatingBadge1, .floatingBadge2, .floatingBadge3, 
-  .floatingBadge4, .floatingBadge5, .floatingBadge6, 
-  .floatingBadge7 {
+  .floatingBadge4 {
     display: none;
   }
 }
@@ -787,5 +588,63 @@
   .techItem {
     font-size: 0.7rem;
     padding: 0.3rem 0.8rem;
+  }
+}
+/* Texto "DISPONIBLE" flotante - CON MOVIMIENTO */
+.hireMeText {
+  position: absolute;
+  bottom: -30px;
+  right: -20px;
+  display: flex;
+  gap: 3px;
+  transform: rotate(-5deg);
+  z-index: 5;
+}
+
+.hireMeText span {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #64ffda;
+  text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+  animation: bounceLetter 1.5s ease-in-out infinite;
+  display: inline-block;
+  transform: translateZ(0);
+}
+
+@keyframes bounceLetter {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.hireMeText span:nth-child(1) { animation-delay: 0s; }
+.hireMeText span:nth-child(2) { animation-delay: 0.1s; }
+.hireMeText span:nth-child(3) { animation-delay: 0.2s; }
+.hireMeText span:nth-child(4) { animation-delay: 0.3s; }
+.hireMeText span:nth-child(5) { animation-delay: 0.4s; }
+.hireMeText span:nth-child(6) { animation-delay: 0.5s; }
+.hireMeText span:nth-child(7) { animation-delay: 0.6s; }
+.hireMeText span:nth-child(8) { animation-delay: 0.7s; }
+.hireMeText span:nth-child(9) { animation-delay: 0.8s; }
+.hireMeText span:nth-child(10) { animation-delay: 0.9s; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hireMeText span {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hireMeText {
+    bottom: -20px;
+    right: -10px;
+  }
+  
+  .hireMeText span {
+    font-size: 0.8rem;
   }
 }
