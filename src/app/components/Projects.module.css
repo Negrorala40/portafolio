@@ -1,160 +1,439 @@
 .projects {
-    padding: 8rem 2rem;
-  }
-  
-  .container {
-    max-width: 1280px;
-    margin: 0 auto;
-  }
-  
-  .title {
-    font-size: 4.5rem;
-    font-weight: 900;
-    margin-bottom: 5rem;
-    text-align: center;
+  padding: 8rem 2rem;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 4.5rem;
+  font-weight: 900;
+  margin-bottom: 5rem;
+  text-align: center;
+  opacity: 0;
+  animation: floatIn 1s forwards;
+}
+
+@keyframes floatIn {
+  0% {
     opacity: 0;
-    animation: floatIn 1s forwards;
+    transform: translateY(100px) scale(0.8);
+    filter: blur(10px);
   }
-  
-  @keyframes floatIn {
-    0% {
-      opacity: 0;
-      transform: translateY(100px) scale(0.8);
-      filter: blur(10px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      filter: blur(0);
-    }
-  }
-  
-  .title span {
-    display: block;
-    font-size: 1.5rem;
-    color: #6b7280;
-    margin-top: 1rem;
-  }
-  
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 2rem;
-  }
-  
-  @media (min-width: 768px) {
-    .grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  
-  .projectCard {
-    position: relative;
-    cursor: pointer;
-    opacity: 0;
-    animation: scaleIn 0.6s forwards;
-  }
-  
-  @keyframes scaleIn {
-    0% {
-      opacity: 0;
-      transform: scale(0.5);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  
-  .cardInner {
-    position: relative;
-    height: 500px;
-    overflow: hidden;
-  }
-  
-  .imagePlaceholder {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom right, #111827, #000000);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 4rem;
-    font-weight: bold;
-  }
-  
-  .overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.5s;
-    opacity: 0;
-  }
-  
-  .projectCard:hover .overlay {
+  100% {
     opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
   }
-  
-  .overlayContent {
-    text-align: center;
-    padding: 1.5rem;
-    transform: translateY(1rem);
-    transition: transform 0.5s;
+}
+
+.title span {
+  display: block;
+  font-size: 1.5rem;
+  color: #6b7280;
+  margin-top: 1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
   }
-  
-  .projectCard:hover .overlayContent {
-    transform: translateY(0);
-  }
-  
-  .projectTitle {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
-  
-  .projectDescription {
-    color: #9ca3af;
-    margin-bottom: 1.5rem;
-  }
-  
-  .tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    justify-content: center;
-  }
-  
-  .tag {
-    padding: 0.25rem 0.75rem;
-    border: 1px solid white;
-    font-size: 0.875rem;
-  }
-  
-  .borderEffect {
-    position: absolute;
-    inset: 0;
-    border: 2px solid white;
-    transition: all 0.5s;
+}
+
+.projectCard {
+  position: relative;
+  cursor: pointer;
+  opacity: 0;
+  animation: scaleIn 0.6s forwards;
+  transition: transform 0.3s ease;
+}
+
+.projectCard:hover {
+  transform: translateY(-10px);
+}
+
+@keyframes scaleIn {
+  0% {
     opacity: 0;
-    transform: scale(1.1);
-    pointer-events: none;
+    transform: scale(0.5);
   }
-  
-  .projectCard:hover .borderEffect {
+  100% {
     opacity: 1;
     transform: scale(1);
   }
-  
-  .cardTitle {
-    font-size: 1.25rem;
-    font-weight: bold;
-    margin-top: 1rem;
-    transition: transform 0.3s;
+}
+
+.cardInner {
+  position: relative;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.projectImage {
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.projectCard:hover .projectImage {
+  transform: scale(1.1);
+}
+
+.imagePlaceholder {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+  opacity: 0;
+  padding: 1.5rem;
+}
+
+.projectCard:hover .overlay {
+  opacity: 1;
+}
+
+.overlayContent {
+  text-align: left;
+  width: 100%;
+  transform: translateY(1rem);
+  transition: transform 0.5s ease;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.projectCard:hover .overlayContent {
+  transform: translateY(0);
+}
+
+.projectTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+  color: #64ffda;
+}
+
+.projectDescription {
+  color: #9ca3af;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.techSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.techGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.techLabel {
+  font-size: 0.8rem;
+  color: #64ffda;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.techTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.techTag {
+  padding: 0.2rem 0.6rem;
+  background: rgba(100, 255, 218, 0.1);
+  border: 1px solid rgba(100, 255, 218, 0.3);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: #64ffda;
+  transition: all 0.3s ease;
+}
+
+.techTag:hover {
+  background: rgba(100, 255, 218, 0.2);
+  border-color: #64ffda;
+  transform: scale(1.05);
+}
+
+.linkIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  margin-top: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.linkIndicator:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.linkIcon {
+  font-size: 1rem;
+}
+
+.linkText {
+  font-size: 0.8rem;
+  color: white;
+}
+
+.borderEffect {
+  position: absolute;
+  inset: 0;
+  border: 2px solid #64ffda;
+  transition: all 0.5s ease;
+  opacity: 0;
+  transform: scale(1.1);
+  pointer-events: none;
+  border-radius: 16px;
+}
+
+.projectCard:hover .borderEffect {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.cardFooter {
+  margin-top: 1rem;
+  padding: 0 0.5rem;
+}
+
+.cardTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  transition: transform 0.3s ease;
+  color: white;
+}
+
+.projectCard:hover .cardTitle {
+  transform: translateX(0.5rem);
+}
+
+.miniTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.miniTag {
+  padding: 0.2rem 0.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: #9ca3af;
+  transition: all 0.3s ease;
+}
+
+.miniTag:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #64ffda;
+  color: #64ffda;
+}
+
+/* Scrollbar personalizado para el overlay */
+.overlayContent::-webkit-scrollbar {
+  width: 4px;
+}
+
+.overlayContent::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.overlayContent::-webkit-scrollbar-thumb {
+  background: #64ffda;
+  border-radius: 4px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .title span {
+    font-size: 1rem;
+  }
+
+  .cardInner {
+    height: 350px;
+  }
+
+  .overlayContent {
+    font-size: 0.9rem;
+  }
+}
+/* Añade esto al final de tu Projects.module.css */
+
+/* MODIFICA esta sección - línea 303 aproximadamente */
+.projectBadges {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  z-index: 3;
+  transition: opacity 0.3s ease; /* ← AÑADE ESTA LÍNEA */
+}
+
+/* AÑADE esto nuevo después de .projectBadges */
+.projectCard:hover .projectBadges {
+  opacity: 0; /* ← AÑADE ESTE BLOQUE COMPLETO */
+  pointer-events: none; /* ← Evita que interfieran con el hover */
+}
+
+.projectBadge {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  color: #64ffda;
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border: 1px solid rgba(100, 255, 218, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  animation: slideInBadge 0.5s ease-out forwards;
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.projectBadge:nth-child(1) { animation-delay: 0.1s; }
+.projectBadge:nth-child(2) { animation-delay: 0.2s; }
+.projectBadge:nth-child(3) { animation-delay: 0.3s; }
+.projectBadge:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes slideInBadge {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.projectBadge:hover {
+  background: rgba(100, 255, 218, 0.2);
+  border-color: #64ffda;
+  transform: scale(1.05);
+}
+
+.metricsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.metricValue {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #64ffda;
+  line-height: 1;
+}
+
+.metricLabel {
+  font-size: 0.65rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metricDivider {
+  width: 1px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Mejoras para la imagen */
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.projectImage {
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.projectCard:hover .projectImage {
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .projectBadges {
+    top: 5px;
+    left: 5px;
   }
   
-  .projectCard:hover .cardTitle {
-    transform: translateX(0.5rem);
+  .projectBadge {
+    font-size: 0.6rem;
+    padding: 2px 6px;
   }
+  
+  .metricsContainer {
+    padding: 0.75rem;
+  }
+  
+  .metricValue {
+    font-size: 1.2rem;
+  }
+  
+  .metricLabel {
+    font-size: 0.6rem;
+  }
+}
